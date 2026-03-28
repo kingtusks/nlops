@@ -5,3 +5,4 @@ docker
 paramiko
 langchain
 langchain-ollama
+proxmoxer
