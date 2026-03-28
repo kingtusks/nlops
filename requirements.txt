@@ -6,3 +6,4 @@ paramiko
 langchain
 langchain-ollama
 proxmoxer
+discord.py
