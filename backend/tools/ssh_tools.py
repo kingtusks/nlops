@@ -26,7 +26,8 @@ def _ssh(command: str) -> str:
 
 @tool
 def run_ssh_command(command: str) -> str:
-    """Runs a shell command on the remote server over SSH"""
+    """Runs a shell command on the remote server over SSH.
+    This should be used as a default command (e.g: if the user didn't specify docker/proxmox)"""
     return _ssh(command)
 
 

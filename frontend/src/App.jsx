@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react"
+import ReactMarkdown from "react-markdown"
 import "./App.css"
 
 const SendIcon = () => (
@@ -59,7 +60,12 @@ export default function App() {
         {messages.map((msg, i) => (
           <div key={i} className={`message ${msg.role}`}>
             <span className="label">{msg.role === "assistant" ? "nlops" : "You"}</span>
-            <div className={`bubble ${msg.role}`}>{msg.content}</div>
+            <div className={`bubble ${msg.role}`}>
+              {msg.role === "assistant"
+                ? <ReactMarkdown>{msg.content}</ReactMarkdown>
+                : msg.content
+              }
+            </div>
           </div>
         ))}
 
