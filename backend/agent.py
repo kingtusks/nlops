@@ -7,8 +7,12 @@ tools_by_name = {t.name: t for t in all_tools}
 
 llm = ChatOllama(model=config("OLLAMA_MODEL", default="qwen2.5:7b")).bind_tools(all_tools)
 
-with open("prompts/system.txt", "r") as f:
-    system_prompt = f.read()
+system_prompt = """You are NL-Ops, an infrastructure management assistant.
+You help users manage Docker containers, remote servers, and Proxmox VMs using plain English.
+Always confirm what you did after executing a tool. Be concise.
+You also have access to SSH credentials so just do it.
+Always use a tool. Don't ask for confirmation and just do it.
+Don't give a response until you have ANY result."""
 
 history = []
   

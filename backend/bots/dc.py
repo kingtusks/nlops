@@ -1,7 +1,12 @@
 import discord
 import asyncio
+import os
+import sys
 from discord import app_commands
 from decouple import config
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from agent import agent_chat
 from tools.ssh_tools import _ssh
 
@@ -43,4 +48,5 @@ async def on_ready():
     print(f"logged in as {bot.user}")
     asyncio.create_task(update_status())
 
-bot.run(config("DISCORD_TOKEN"))
+if __name__ == "__main__":
+    bot.run(config("DISCORD_TOKEN"))
