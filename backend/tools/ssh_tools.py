@@ -25,9 +25,12 @@ def _ssh(command: str) -> str:
 
 
 @tool
-def run_ssh_command(command: str) -> str:
+def run_server_command(command: str) -> str:
     """Runs a shell command on the remote server over SSH.
     This should be used as a default command (e.g: if the user didn't specify docker/proxmox)"""
     return _ssh(command)
 
-
+@tool
+def ollama_pull(model: str) -> str:
+    """Pulls an Ollama model on the remote server e.g. qwen2.5:7b, llama3.1:8b"""
+    return _ssh(f"ollama pull {model}")
