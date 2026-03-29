@@ -16,7 +16,7 @@ nlops lets you manage Docker containers and remote servers using plain English. 
 
 ## stack
 
-- **Backend** — FastAPI + LangChain + Ollama (or Claude API)
+- **Backend** — FastAPI + LangChain + Ollama or Claude API
 - **Frontend** — React + Vite
 - **Discord bot** — discord.py
 - **Tools** — Docker SDK, Paramiko (SSH), Proxmox API
@@ -28,7 +28,6 @@ nlops lets you manage Docker containers and remote servers using plain English. 
 - Python 3.11+
 - Node 18+
 - Docker
-- Ollama running locally (`ollama pull qwen2.5:7b`)
 
 ### install
 
@@ -50,19 +49,29 @@ npm install
 
 ### config
 
+**Option A — Ollama (local)**
 ```env
 OLLAMA_BASE_URL=http://localhost:11434/v1
-OLLAMA_MODEL=qwen2.5:7b
+OLLAMA_MODEL=llama3.1:8b
+```
 
+**Option B — Claude API (recommended)**
+```env
+ANTHROPIC_API_KEY=sk-ant-...
+```
+
+**SSH / infra**
+```env
 SSH_HOST=your-server-ip
 SSH_USER=your-username
 SSH_PASSWORD=yourpassword
 
-# optional
+# optional — Proxmox
 PROXMOX_HOST=your-proxmox-ip
 PROXMOX_USER=root@pam
 PROXMOX_PASSWORD=yourpassword
 
+# optional — Discord
 DISCORD_TOKEN=your-discord-token
 ```
 
@@ -79,7 +88,7 @@ npm run dev
 
 # discord bot (optional)
 cd backend
-python bot.py
+python bots/discord_bot.py
 ```
 
 Open [http://localhost:5173](http://localhost:5173)
@@ -89,8 +98,8 @@ Open [http://localhost:5173](http://localhost:5173)
 | category | tools |
 |----------|-------|
 | docker | list containers, start/stop/restart, get logs, stats, list images, pull image, run container |
-| ssh | run command, disk usage, memory, top processes, public IP |
-| system | ping host, systemctl status/restart, git pull, nginx reload |
+| ssh | run command, disk usage, memory, top processes, public IP, uptime |
+| system | ping host, systemctl status/restart, git pull, nginx reload, ollama pull |
 | proxmox | list/start/stop/restart VMs, VM status, list nodes |
 
 ## discord
@@ -103,7 +112,7 @@ Add the bot to your server and use `/ops` to run commands:
 /ops check disk usage
 ```
 
-The bot status updates every 30 seconds with live CPU, RAM, and disk stats from your server.
+The bot status bar updates every 30 seconds with live CPU, RAM, and disk stats from your server.
 
 ## project structure
 
@@ -111,9 +120,13 @@ The bot status updates every 30 seconds with live CPU, RAM, and disk stats from 
 nlops/
 ├── backend/
 │   ├── main.py          # FastAPI server
-│   ├── agent.py         # LangChain agent loop
-│   ├── bot.py           # Discord bot
+│   ├── agent.py         # LangChain agent loop + history
+│   ├── bots/
+│   │   └── discord_bot.py
+│   ├── prompts/
+│   │   └── system.py
 │   ├── tools/
+│   │   ├── __init__.py
 │   │   ├── docker_tools.py
 │   │   ├── ssh_tools.py
 │   │   └── proxmox_tools.py
