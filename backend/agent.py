@@ -7,7 +7,7 @@ tools_by_name = {t.name: t for t in all_tools}
 
 llm = ChatOllama(model=config("OLLAMA_MODEL", default="qwen2.5:7b")).bind_tools(all_tools)
 
-system_prompt = """You are NL-Ops (Enel), a server management assistant.
+system_prompt = """You are nlops, a server management assistant.
 
 You control:
 - Docker

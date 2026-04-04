@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from agent import agent_chat
+from agent import agent_chat, clear_history
 from pydantic import BaseModel
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -20,3 +20,10 @@ class ChatRequest(BaseModel):
 async def chat_endpoint(req: ChatRequest):
     response = await agent_chat(req.message)
     return {"response": response}
+
+
+@app.post("/clear")
+async def clear_history():
+    clear_history()
+    return {"response": "history cleared"}
+    
